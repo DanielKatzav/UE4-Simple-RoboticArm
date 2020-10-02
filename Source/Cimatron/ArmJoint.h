@@ -13,16 +13,21 @@ class CIMATRON_API AArmJoint : public AActor
 {
 	GENERATED_BODY()
 private:
-	bool MoveArm(int ID);
-	FTimer Timer;
 	float t = 0;
 
-	std::array<URobotArmJoint*, 10> ArmJoint;
+	FVector minLimit = FVector(-180, -180, -180);		// in Degrees
+	FVector maxLimit = FVector(180, 180, 180);			// in Degrees
+	FVector Extension = FVector(0, 0, 0);				// in Meters
+	bool isTelescopic = false;
+	FVector Geometry;
+
 	
 public:	
 	// Sets default values for this actor's properties
 	AArmJoint();
+	AArmJoint(FVector Geometry, bool isTelecopic, FVector minLimit, FVector maxLimit, FVector Extension);
 
+	bool SetExtension(FVector NewState);
 
 protected:
 	// Called when the game starts or when spawned

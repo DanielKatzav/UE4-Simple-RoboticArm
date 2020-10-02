@@ -2,6 +2,7 @@
 
 
 #include "ArmPivot.h"
+#include "RobotArmMode.h"
 
 // Sets default values
 AArmPivot::AArmPivot()
@@ -10,7 +11,28 @@ AArmPivot::AArmPivot()
 	PrimaryActorTick.bCanEverTick = true;
 
 }
+AArmPivot::AArmPivot(FVector Geometry, FVector minLimit, FVector maxLimit)
+{
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+	this->Geometry = Geometry;
+	this->minLimit = minLimit;
+	this->maxLimit = maxLimit;
 
+}
+bool AArmPivot::SetTheta(FVector NewState)
+{	
+	if (NewState.X < this->minLimit.X || NewState.X > this->maxLimit.X)
+		return false;
+	else if (NewState.Y < this->minLimit.Y || NewState.Y > this->maxLimit.Y)
+		return false;
+	else if (NewState.Z < this->minLimit.Z || NewState.Z > this->maxLimit.Z)
+		return false;
+
+	SetActorRotation(FQuat::MakeFromEuler(NewState));
+
+	return true;
+}
 // Called when the game starts or when spawned
 void AArmPivot::BeginPlay()
 {

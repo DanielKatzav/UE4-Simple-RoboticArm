@@ -10,11 +10,18 @@ UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class CIMATRON_API AArmPivot : public AActor
 {
 	GENERATED_BODY()
-	
+
+private:
+	float t = 0;
+	FVector minLimit = FVector(-180,-180,-180);		// in Degrees
+	FVector maxLimit = FVector(180, 180, 180);		// in Degrees
+	FVector Geometry;
+
 public:	
 	// Sets default values for this actor's properties
 	AArmPivot();
-	float t = 0;
+	AArmPivot(FVector Geometry, FVector minLimit, FVector maxLimit);
+	bool SetTheta(FVector NewState);
 
 protected:
 	// Called when the game starts or when spawned
